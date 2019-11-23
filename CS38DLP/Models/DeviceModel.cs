@@ -1,5 +1,7 @@
 ﻿using DeviceCommunications;
 using PanTypes;
+using System;
+using System.Text.RegularExpressions;
 
 namespace CS38DLP.Models
 {
@@ -46,6 +48,12 @@ namespace CS38DLP.Models
             }
 
             return resp;
+        }
+
+        public Tuple<string, string> CurrentReading()
+        {            
+            string[] words = Regex.Split(Send("SEND=SINGLE"), @"\s+");
+            return Tuple.Create(words[1], words[2]);
         }
     }
 }

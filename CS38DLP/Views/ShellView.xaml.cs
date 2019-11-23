@@ -23,5 +23,10 @@ namespace CS38DLP.Views
         {
             InitializeComponent();
         }
+
+        private void TextBoxLogging_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
     }
 }

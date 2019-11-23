@@ -44,19 +44,16 @@
                 Margin="5,10"/>
         <TextBox x:Name="TextCommandReading" Grid.Column="2" Grid.Row="3" Grid.ColumnSpan="3" 
                 Margin="5,10"/>
-        <TextBox x:Name="TextSendCommand" Grid.Column="2" Grid.Row="4" Grid.ColumnSpan="3"
-                Margin="5,10" Text="{Binding Path=SelectedCommand.Content, Mode=OneWay}"/>
-        <Border BorderThickness="1" BorderBrush="Black" Grid.Column="1" Grid.Row="5" Grid.ColumnSpan="4" Margin="10,0">
+        <TextBox x:Name="CommandString" Grid.Column="2" Grid.Row="4" Grid.ColumnSpan="3"
+                Margin="5,10"/>
+        <Border BorderThickness="1" BorderBrush="Black" Grid.Column="1" Grid.Row="5" Grid.ColumnSpan="4" Margin="10,0" ScrollViewer.CanContentScroll="True">
             <TextBox x:Name="Logging" />
         </Border>
 
         <!-- Colunm 5 -->
         <Border BorderThickness="1" BorderBrush="Black" Grid.Column="5" Grid.Row="1" Grid.RowSpan="5" Margin="10,0">
             <ScrollViewer>
-                <ListBox x:Name="CommandList" DisplayMemberPath="Content"
-                         ItemsSource="{Binding Path=Commands}" 
-                         SelectedItem="{Binding Path=SelectedCommand, Mode=TwoWay}" 
-                         HorizontalAlignment="Stretch" />
+                <ListBox x:Name="Commands" DisplayMemberPath="Content"/>                
             </ScrollViewer>
         </Border>
 

@@ -3,6 +3,7 @@ using CS38DLP.Models;
 using DeviceCommunications;
 using PanTypes;
 using System;
+using System.Text.RegularExpressions;
 
 namespace CS38DLP.ViewModels
 {
@@ -11,9 +12,10 @@ namespace CS38DLP.ViewModels
         private BindableCollection<CommandModel> _commands = new BindableCollection<CommandModel>();
         private DeviceModel _device;
         private CommandModel _selectedCommand;
-        private string _textSendCommand;
+        private string _commandString;
+
         private string _textCommandReading;
-        private string _logging = "";
+        private string _logging;
 
         public ShellViewModel()
         {
@@ -37,44 +39,55 @@ namespace CS38DLP.ViewModels
             Commands.Add(new CommandModel { Content = "MONITOR=GO" });
             Commands.Add(new CommandModel { Content = "PROTO=SINGLE" });
             Commands.Add(new CommandModel { Content = "SETUPNAME?" });
-            Commands.Add(new CommandModel { Content = "SETUPNAME=name" });          
+            Commands.Add(new CommandModel { Content = "SETUPNAME=name" });
+
+            Logging += "Please click Initialize Device button.\n";
         }
 
         public void InitDevice()
         {
             _device = new DeviceModel();
-            var name = _device.Name;
-            _logging += "Device Name: " + _device.Name + Environment.NewLine;
+            Logging += String.Format("\nInitializing...Done!\nDevice Name: {0}\n", _device.Name);
         }
 
         public void GageInfo()
         {
-            _device.Send("GAGEINFO?");
+            var cmd = "GAGEINFO?";
+            Logging += String.Format("\n=============SEND=============\n{0}\n\n\n", cmd);
+            Logging += String.Format("\n*********************RECEIVE********************\n{0}\n\n\n", _device.Send(cmd));
         }
 
         public void GageVersion()
         {
-            _device.Send("VER?");
+            var cmd = "VER?";
+            Logging += String.Format("\n=============SEND=============\n{0}\n\n\n", cmd);
+            Logging += String.Format("\n*********************RECEIVE********************\n{0}\n\n\n", _device.Send(cmd));
         }
 
         public void CommandUnits()
         {
-            _device.Send("UNITS?");
+            var cmd = "UNITS?";
+            Logging += String.Format("\n=============SEND=============\n{0}\n\n\n", cmd);
+            Logging += String.Format("\n*********************RECEIVE********************\n{0}\n\n\n", _device.Send(cmd));
         }
 
         public void CommandVelocity()
         {
-            _device.Send("VELOCITY?");
+            var cmd = "VELOCITY?";
+            Logging += String.Format("\n=============SEND=============\n{0}\n\n\n", cmd);
+            Logging += String.Format("\n*********************RECEIVE********************\n{0}\n\n\n", _device.Send(cmd));
         }
 
         public void SendCommand()
         {
-            
+            Logging += String.Format("\n=============SEND=============\n{0}\n\n\n", CommandString);
+            Logging += String.Format("\n*********************RECEIVE********************\n{0}\n\n\n", _device.Send(CommandString));
         }
 
         public void CommandReading()
         {
-
+            var readings = _device.CurrentReading();
+            TextCommandReading = readings.Item1;            
         }
 
         public BindableCollection<CommandModel> Commands
@@ -90,25 +103,38 @@ namespace CS38DLP.ViewModels
             {
                 _selectedCommand = value;
                 NotifyOfPropertyChange(() => SelectedCommand);
+                CommandString = _selectedCommand.Content;                
             }
         }
 
         public string TextCommandReading
         {
             get { return _textCommandReading; }
-            set { _textCommandReading = value; }
+            set
+            {
+                _textCommandReading = value;
+                NotifyOfPropertyChange(() => TextCommandReading);
+            }
         }
 
-        public string TextSendCommand
+        public string CommandString
         {
-            get { return _textSendCommand; }
-            set { _textSendCommand = value; }
+            get { return _commandString; }
+            set
+            {
+                _commandString = value;
+                NotifyOfPropertyChange(() => CommandString);
+            }
         }
 
         public string Logging
         {
             get { return _logging; }
-            set { _logging = value; }
+            set
+            {
+                _logging = value;
+                NotifyOfPropertyChange(() => Logging);
+            }
         }
     }
 }
