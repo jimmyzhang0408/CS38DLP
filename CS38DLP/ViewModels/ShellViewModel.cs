@@ -13,12 +13,12 @@ namespace CS38DLP.ViewModels
         private IWindowManager _manager = new WindowManager();
         private BindableCollection<string> _commands = new BindableCollection<string>();
         private BindableCollection<string> _densityUnitList = new BindableCollection<string>();
-        private BindableCollection<string> _thicknessUnitList = new BindableCollection<string>();
+        //private BindableCollection<string> _thicknessUnitList = new BindableCollection<string>();
         private BindableCollection<string> _velociyUnit = new BindableCollection<string>();
 
         private string _selectedCommand;
         private string _selectedDensityUnit;
-        private string _selectedThicknessUnit;
+        //private string _selectedThicknessUnit;
         private string _selectedLongitudinalVelocityUnit;
         private string _selectedShearVelocityUnit;
         
@@ -30,7 +30,7 @@ namespace CS38DLP.ViewModels
 
         private TestPieceModel testPiece = new TestPieceModel();
         private string _densityDigits;
-        private string _thicknessDigits;
+        //private string _thicknessDigits;
         private string _longitudianlVelocityDigits;
         private string _shearVelocityDigits;        
 
@@ -61,9 +61,9 @@ namespace CS38DLP.ViewModels
             DensityUnitList.Add("kg/m^3");
             DensityUnitList.Add("g/cc");
 
-            ThicknessUnitList.Add("mm");
-            ThicknessUnitList.Add("m");
-            ThicknessUnitList.Add("inch");
+            //ThicknessUnitList.Add("mm");
+            //ThicknessUnitList.Add("m");
+            //ThicknessUnitList.Add("inch");
 
             VelocityUnitList.Add("mm/us");
             VelocityUnitList.Add("m/s");
@@ -159,29 +159,29 @@ namespace CS38DLP.ViewModels
             }
         }
 
-        public BindableCollection<string> ThicknessUnitList
-        {
-            get { return _thicknessUnitList; }
-            set { _thicknessUnitList = value; }
-        }
+        //public BindableCollection<string> ThicknessUnitList
+        //{
+        //    get { return _thicknessUnitList; }
+        //    set { _thicknessUnitList = value; }
+        //}
 
-        public string SelectedThicknessUnit
-        {
-            get
-            {
-                _selectedThicknessUnit = testPiece.thickness.Unit;
-                return _selectedThicknessUnit;
-            }
-            set
-            {
-                _selectedThicknessUnit = value;
-                NotifyOfPropertyChange(() => SelectedThicknessUnit);
-                testPiece.thickness.Unit = _selectedThicknessUnit;
-                NotifyOfPropertyChange(() => PoissonsRatio);
-                NotifyOfPropertyChange(() => YoungsModulus);
-                NotifyOfPropertyChange(() => ShearModulus);
-            }
-        }
+        //public string SelectedThicknessUnit
+        //{
+        //    get
+        //    {
+        //        _selectedThicknessUnit = testPiece.thickness.Unit;
+        //        return _selectedThicknessUnit;
+        //    }
+        //    set
+        //    {
+        //        _selectedThicknessUnit = value;
+        //        NotifyOfPropertyChange(() => SelectedThicknessUnit);
+        //        testPiece.thickness.Unit = _selectedThicknessUnit;
+        //        NotifyOfPropertyChange(() => PoissonsRatio);
+        //        NotifyOfPropertyChange(() => YoungsModulus);
+        //        NotifyOfPropertyChange(() => ShearModulus);
+        //    }
+        //}
 
         public BindableCollection<string> VelocityUnitList
         {
@@ -279,23 +279,23 @@ namespace CS38DLP.ViewModels
             }
         }
                
-        public string ThicknessDigits
-        {
-            get { return _thicknessDigits; }
-            set
-            {
-                _thicknessDigits = value;
-                NotifyOfPropertyChange(() => ThicknessDigits);
+        //public string ThicknessDigits
+        //{
+        //    get { return _thicknessDigits; }
+        //    set
+        //    {
+        //        _thicknessDigits = value;
+        //        NotifyOfPropertyChange(() => ThicknessDigits);
 
-                if (Double.TryParse(value, out double outValue))
-                {
-                    testPiece.thickness.Digits = outValue;
-                    NotifyOfPropertyChange(() => PoissonsRatio);
-                    NotifyOfPropertyChange(() => YoungsModulus);
-                    NotifyOfPropertyChange(() => ShearModulus);
-                }
-            }
-        }
+        //        if (Double.TryParse(value, out double outValue))
+        //        {
+        //            testPiece.thickness.Digits = outValue;
+        //            NotifyOfPropertyChange(() => PoissonsRatio);
+        //            NotifyOfPropertyChange(() => YoungsModulus);
+        //            NotifyOfPropertyChange(() => ShearModulus);
+        //        }
+        //    }
+        //}
 
         public string LongitudinalVelocityDigits
         {
@@ -346,6 +346,46 @@ namespace CS38DLP.ViewModels
         public string ShearModulus
         {
             get { return testPiece.ShearModulus.ToString(); }
+        }
+
+        public void MeasureLongitudinalVelocity()
+        {
+            var readings = _device.CurrentReading();
+            LongitudinalVelocityDigits = readings.Item1;
+            switch (readings.Item2)
+            {
+                case "MM":
+                    SelectedLongitudinalVelocityUnit = "mm/us";
+                    break;
+
+                case "IN":
+                    SelectedLongitudinalVelocityUnit = "inch/us";
+                    break;
+
+                default:
+                    SelectedLongitudinalVelocityUnit = "mm/us";
+                    break;
+            }              
+        }
+
+        public void MeasureShearVelocity()
+        {
+            var readings = _device.CurrentReading();
+            ShearVelocityDigits = readings.Item1;
+            switch (readings.Item2)
+            {
+                case "MM":
+                    SelectedShearVelocityUnit = "mm/us";
+                    break;
+
+                case "IN":
+                    SelectedShearVelocityUnit = "inch/us";
+                    break;
+
+                default:
+                    SelectedShearVelocityUnit = "mm/us";
+                    break;
+            }
         }
     }
 }

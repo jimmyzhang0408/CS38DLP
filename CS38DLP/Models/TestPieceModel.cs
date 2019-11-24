@@ -14,8 +14,6 @@ namespace CS38DLP.Models
 
     public class Density : Attribute
     {
-        
-
         public Density()
         {
             Digits = 0.0;
@@ -42,15 +40,12 @@ namespace CS38DLP.Models
                         break;
                 }
                 return convertedDigtis;
-
             }
         }
     }
 
     public class Thickness : Attribute
     {
-        
-
         public Thickness()
         {
             Digits = 0.0;
@@ -81,15 +76,12 @@ namespace CS38DLP.Models
                         break;
                 }
                 return convertedDigtis;
-
             }
         }
     }
 
     public class Velocity : Attribute
     {
-        
-
         public Velocity()
         {
             Digits = 0.0;
@@ -120,7 +112,6 @@ namespace CS38DLP.Models
                         break;
                 }
                 return convertedDigtis;
-
             }
         }
     }
