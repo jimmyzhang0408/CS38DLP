@@ -1,0 +1,52 @@
+﻿<Window x:Class="CS38DLP.Views.FormulaView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CS38DLP.Views"
+        xmlns:controls="clr-namespace:WpfMath.Controls;assembly=WpfMath"
+        mc:Ignorable="d" WindowStartupLocation="CenterScreen" Background="GhostWhite"
+        Title="Formula" Height="450" Width="450">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="10" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="10" />
+        </Grid.RowDefinitions>
+        <Border Grid.Row="1" BorderThickness="0.5" BorderBrush="Black" Margin="10">
+            <Grid Margin="5">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                </Grid.RowDefinitions>
+                <controls:FormulaControl Grid.Row="0" Formula="Poisson's{\thinspace}Ratio\left(\nu\right)=\frac{1-2\left(V_{S}/V_{L}\right)^2}{2-2\left(V_{S}/V_{L}\right)^2}" />
+                <Label Grid.Row="1" Content="Where" FontSize="18" FontWeight="SemiBold"/>
+                <controls:FormulaControl Grid.Row="2" Formula="V_{S}=Shear{\thinspace}\left(transverse\right){\thinspace}Velocity" />
+                <controls:FormulaControl Grid.Row="3" Formula="V_{L}=Longitudinal{\thinspace}Velocity" />
+            </Grid>
+        </Border>
+        <Border Grid.Row="2" BorderThickness="0.5" BorderBrush="Black" Margin="10" >
+            <Grid Margin="5">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                </Grid.RowDefinitions>
+                <controls:FormulaControl Grid.Row="0" Formula="Young's{\thinspace}Modulus\left(E\right)=\frac{V_{L}^2\rho\left(1+\nu\right)\left(1-2\nu\right)}{1-\nu}" />
+                <Label Grid.Row="1" Content="Where" FontSize="18" FontWeight="SemiBold"/>
+                <controls:FormulaControl Grid.Row="2" Formula="V_{L}=Longitudinal{\thinspace}Velocity" />
+                <controls:FormulaControl Grid.Row="3" Formula="\rho=Density" />
+                <controls:FormulaControl Grid.Row="4" Formula="\nu=Poisson's{\thinspace}Ratio" />
+            </Grid>
+        </Border>
+        <Border Grid.Row="3" BorderThickness="0.5" BorderBrush="Black" Margin="10" >
+            <controls:FormulaControl Grid.Row="0" Formula="Shear{\thinspace}Modulus=V_{S}^2\rho" VerticalAlignment="Center"/>
+        </Border>
+    </Grid>
+</Window>

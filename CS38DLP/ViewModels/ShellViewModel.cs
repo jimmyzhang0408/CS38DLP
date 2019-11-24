@@ -3,43 +3,71 @@ using CS38DLP.Models;
 using DeviceCommunications;
 using PanTypes;
 using System;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
 namespace CS38DLP.ViewModels
 {
     public class ShellViewModel : Screen
     {
-        private BindableCollection<CommandModel> _commands = new BindableCollection<CommandModel>();
-        private DeviceModel _device;
-        private CommandModel _selectedCommand;
-        private string _commandString;
+        private IWindowManager _manager = new WindowManager();
+        private BindableCollection<string> _commands = new BindableCollection<string>();
+        private BindableCollection<string> _densityUnitList = new BindableCollection<string>();
+        private BindableCollection<string> _thicknessUnitList = new BindableCollection<string>();
+        private BindableCollection<string> _velociyUnit = new BindableCollection<string>();
 
+        private string _selectedCommand;
+        private string _selectedDensityUnit;
+        private string _selectedThicknessUnit;
+        private string _selectedLongitudinalVelocityUnit;
+        private string _selectedShearVelocityUnit;
+        
+        private DeviceModel _device;
+                
+        private string _commandString;
         private string _textCommandReading;
         private string _logging;
 
+        private TestPieceModel testPiece = new TestPieceModel();
+        private string _densityDigits;
+        private string _thicknessDigits;
+        private string _longitudianlVelocityDigits;
+        private string _shearVelocityDigits;        
+
         public ShellViewModel()
         {
-            Commands.Add(new CommandModel { Content = "FTPINFO?" });
-            Commands.Add(new CommandModel { Content = "GAGEINFO?" });
-            Commands.Add(new CommandModel { Content = "FILEDIR?" });
-            Commands.Add(new CommandModel { Content = "APPSUDIR" });
-            Commands.Add(new CommandModel { Content = "XDCRLIST?" });
-            Commands.Add(new CommandModel { Content = "MEMORY?" });
-            Commands.Add(new CommandModel { Content = "SEND=SINGLE" });
-            Commands.Add(new CommandModel { Content = "SEND=FILE" });
-            Commands.Add(new CommandModel { Content = "VER?" });
-            Commands.Add(new CommandModel { Content = "UNITS?" });
-            Commands.Add(new CommandModel { Content = "VELOCITY?" });
-            Commands.Add(new CommandModel { Content = "MODE?" });
-            Commands.Add(new CommandModel { Content = "DATAWIN1?" });
-            Commands.Add(new CommandModel { Content = "SRATE?" });
-            Commands.Add(new CommandModel { Content = "WFGRAB?" });
-            Commands.Add(new CommandModel { Content = "BATTLEVEL?" });
-            Commands.Add(new CommandModel { Content = "VELOCITY=value" });
-            Commands.Add(new CommandModel { Content = "MONITOR=GO" });
-            Commands.Add(new CommandModel { Content = "PROTO=SINGLE" });
-            Commands.Add(new CommandModel { Content = "SETUPNAME?" });
-            Commands.Add(new CommandModel { Content = "SETUPNAME=name" });
+            Commands.Add("FTPINFO?");
+            Commands.Add("GAGEINFO?");
+            Commands.Add("FILEDIR?");
+            Commands.Add("APPSUDIR");
+            Commands.Add("XDCRLIST?");
+            Commands.Add("MEMORY?");
+            Commands.Add("SEND=SINGLE");
+            Commands.Add("SEND=FILE");
+            Commands.Add("VER?");
+            Commands.Add("UNITS?");
+            Commands.Add("VELOCITY?");
+            Commands.Add("MODE?");
+            Commands.Add("DATAWIN1?");
+            Commands.Add("SRATE?");
+            Commands.Add("WFGRAB?");
+            Commands.Add("BATTLEVEL?");
+            Commands.Add("VELOCITY=value");
+            Commands.Add("MONITOR=GO");
+            Commands.Add("PROTO=SINGLE");
+            Commands.Add("SETUPNAME?");
+            Commands.Add("SETUPNAME=name");
+
+            DensityUnitList.Add("kg/m^3");
+            DensityUnitList.Add("g/cc");
+
+            ThicknessUnitList.Add("mm");
+            ThicknessUnitList.Add("m");
+            ThicknessUnitList.Add("inch");
+
+            VelocityUnitList.Add("mm/us");
+            VelocityUnitList.Add("m/s");
+            VelocityUnitList.Add("inch/us");
 
             Logging += "Please click Initialize Device button.\n";
         }
@@ -90,20 +118,110 @@ namespace CS38DLP.ViewModels
             TextCommandReading = readings.Item1;            
         }
 
-        public BindableCollection<CommandModel> Commands
+        public BindableCollection<string> Commands
         {
             get { return _commands; }
             set { _commands = value; }
         }
 
-        public CommandModel SelectedCommand
+        public string SelectedCommand
         {
             get { return _selectedCommand; }
             set
             {
                 _selectedCommand = value;
                 NotifyOfPropertyChange(() => SelectedCommand);
-                CommandString = _selectedCommand.Content;                
+                CommandString = _selectedCommand;                
+            }
+        }
+        
+        public BindableCollection<string> DensityUnitList
+        {
+            get { return _densityUnitList; }
+            set { _densityUnitList = value; }
+        }
+        
+        public string SelectedDensityUnit
+        {
+            get
+            {
+                _selectedDensityUnit = testPiece.density.Unit;
+                return _selectedDensityUnit;
+            }
+            set
+            {
+                _selectedDensityUnit = value;
+                NotifyOfPropertyChange(() => SelectedDensityUnit);
+                testPiece.density.Unit = _selectedDensityUnit;
+                NotifyOfPropertyChange(() => PoissonsRatio);
+                NotifyOfPropertyChange(() => YoungsModulus);
+                NotifyOfPropertyChange(() => ShearModulus);
+            }
+        }
+
+        public BindableCollection<string> ThicknessUnitList
+        {
+            get { return _thicknessUnitList; }
+            set { _thicknessUnitList = value; }
+        }
+
+        public string SelectedThicknessUnit
+        {
+            get
+            {
+                _selectedThicknessUnit = testPiece.thickness.Unit;
+                return _selectedThicknessUnit;
+            }
+            set
+            {
+                _selectedThicknessUnit = value;
+                NotifyOfPropertyChange(() => SelectedThicknessUnit);
+                testPiece.thickness.Unit = _selectedThicknessUnit;
+                NotifyOfPropertyChange(() => PoissonsRatio);
+                NotifyOfPropertyChange(() => YoungsModulus);
+                NotifyOfPropertyChange(() => ShearModulus);
+            }
+        }
+
+        public BindableCollection<string> VelocityUnitList
+        {
+            get { return _velociyUnit; }
+            set { _velociyUnit = value; }
+        }
+        
+        public string SelectedLongitudinalVelocityUnit
+        {
+            get
+            {
+                _selectedLongitudinalVelocityUnit = testPiece.longitudinalVelocity.Unit;
+                return _selectedLongitudinalVelocityUnit;
+            }
+            set
+            {
+                _selectedLongitudinalVelocityUnit = value;
+                NotifyOfPropertyChange(() => SelectedLongitudinalVelocityUnit);
+                testPiece.longitudinalVelocity.Unit = _selectedLongitudinalVelocityUnit;
+                NotifyOfPropertyChange(() => PoissonsRatio);
+                NotifyOfPropertyChange(() => YoungsModulus);
+                NotifyOfPropertyChange(() => ShearModulus);
+            }
+        }
+        
+        public string SelectedShearVelocityUnit
+        {
+            get
+            {
+                _selectedShearVelocityUnit = testPiece.shearVelocity.Unit;
+                return _selectedShearVelocityUnit;
+            }
+            set
+            {
+                _selectedShearVelocityUnit = value;
+                NotifyOfPropertyChange(() => SelectedShearVelocityUnit);
+                testPiece.shearVelocity.Unit = _selectedShearVelocityUnit;
+                NotifyOfPropertyChange(() => PoissonsRatio);
+                NotifyOfPropertyChange(() => YoungsModulus);
+                NotifyOfPropertyChange(() => ShearModulus);
             }
         }
 
@@ -135,6 +253,99 @@ namespace CS38DLP.ViewModels
                 _logging = value;
                 NotifyOfPropertyChange(() => Logging);
             }
+        }
+
+        public void DisplayFormula()
+        {
+            FormulaViewModel formulaView = new FormulaViewModel();
+            _manager.ShowWindow(formulaView);
+        }
+
+        public string DensityDigits
+        {
+            get { return _densityDigits; }
+            set
+            {
+                _densityDigits = value;
+                NotifyOfPropertyChange(() => DensityDigits);
+
+                if (Double.TryParse(value, out double outValue))
+                {
+                    testPiece.density.Digits = outValue;
+                    NotifyOfPropertyChange(() => PoissonsRatio);
+                    NotifyOfPropertyChange(() => YoungsModulus);
+                    NotifyOfPropertyChange(() => ShearModulus);
+                }
+            }
+        }
+               
+        public string ThicknessDigits
+        {
+            get { return _thicknessDigits; }
+            set
+            {
+                _thicknessDigits = value;
+                NotifyOfPropertyChange(() => ThicknessDigits);
+
+                if (Double.TryParse(value, out double outValue))
+                {
+                    testPiece.thickness.Digits = outValue;
+                    NotifyOfPropertyChange(() => PoissonsRatio);
+                    NotifyOfPropertyChange(() => YoungsModulus);
+                    NotifyOfPropertyChange(() => ShearModulus);
+                }
+            }
+        }
+
+        public string LongitudinalVelocityDigits
+        {
+            get { return _longitudianlVelocityDigits; }
+            set
+            {
+                _longitudianlVelocityDigits = value;
+                NotifyOfPropertyChange(() => LongitudinalVelocityDigits);
+
+                if (Double.TryParse(value, out double outValue))
+                {
+                    testPiece.longitudinalVelocity.Digits = outValue;                    
+                    NotifyOfPropertyChange(() => PoissonsRatio);
+                    NotifyOfPropertyChange(() => YoungsModulus);
+                    NotifyOfPropertyChange(() => ShearModulus);
+                }
+            }
+        }
+
+        public string ShearVelocityDigits
+        {
+            get { return _shearVelocityDigits; }
+            set
+            {
+                _shearVelocityDigits = value;
+                NotifyOfPropertyChange(() => ShearVelocityDigits);
+
+                if (Double.TryParse(value, out double outValue))
+                {
+                    testPiece.shearVelocity.Digits = outValue;                    
+                    NotifyOfPropertyChange(() => PoissonsRatio);
+                    NotifyOfPropertyChange(() => YoungsModulus);
+                    NotifyOfPropertyChange(() => ShearModulus);
+                }
+            }
+        }
+
+        public string PoissonsRatio
+        {
+            get { return testPiece.PoissonsRatio.ToString(); }
+        }
+
+        public string YoungsModulus
+        {
+            get { return testPiece.YoungsModulus.ToString(); }
+        }
+
+        public string ShearModulus
+        {
+            get { return testPiece.ShearModulus.ToString(); }
         }
     }
 }

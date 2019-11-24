@@ -53,7 +53,7 @@
         <!-- Colunm 5 -->
         <Border BorderThickness="1" BorderBrush="Black" Grid.Column="5" Grid.Row="1" Grid.RowSpan="5" Margin="10,0">
             <ScrollViewer>
-                <ListBox x:Name="Commands" DisplayMemberPath="Content"/>                
+                <ListBox x:Name="Commands"/>                
             </ScrollViewer>
         </Border>
 
@@ -85,48 +85,37 @@
                 <Button x:Name="DisplayFormula" Content="Formula" Grid.Column="2" Grid.Row="0" Margin="5"/>
                 <Label Content="Density" Grid.Column="0" Grid.Row="2" Margin="0,5,0,5" />
                 <TextBox x:Name="DensityDigits" Grid.Column="1" Grid.Row="2" Margin="0,5,5,5" />
-                <ComboBox x:Name="DensityUnit" Grid.Column="2" Grid.Row="2" Margin="5" SelectedValuePath="Content">
-                    <ComboBoxItem IsSelected="True" Content="kg/m^3"/>
-                    <ComboBoxItem Content="g/cc"/>
-                </ComboBox>
+                <ComboBox x:Name="DensityUnitList" Grid.Column="2" Grid.Row="2" Margin="5"
+                          SelectedItem="{Binding SelectedDensityUnit}"/>
                 <Label Content="Thickness" Grid.Column="0" Grid.Row="3" Margin="0,5,0,5" />
                 <TextBox x:Name="ThicknessDigits" Grid.Column="1" Grid.Row="3" Margin="0,5,5,5" />
-                <ComboBox x:Name="ThicknessUnit" Grid.Column="2" Grid.Row="3" Margin="5" SelectedValuePath="Content">
-                    <ComboBoxItem IsSelected="True" Content="mm"/>
-                    <ComboBoxItem Content="m"/>
-                    <ComboBoxItem Content="inch"/>
-                </ComboBox>
+                <ComboBox x:Name="ThicknessUnitList" Grid.Column="2" Grid.Row="3" Margin="5" 
+                          SelectedItem="{Binding SelectedThicknessUnit}"/>
                 <Label Content="Step 1: Measure Longitudinal Velocity" Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="3" />
                 <Button x:Name="MeasureLongitudinalVelocity" Content="Measure VL" Grid.Column="0" Grid.Row="5" 
                         Margin="5"/>
                 <TextBox x:Name="LongitudinalVelocityDigits" Grid.Column="1" Grid.Row="5" Margin="0,5,5,5" />
-                <ComboBox x:Name="LongitudinalVelocityUnit" Grid.Column="2" Grid.Row="5" Margin="5" SelectedValuePath="Content">
-                    <ComboBoxItem IsSelected="True" Content="mm/us"/>
-                    <ComboBoxItem Content="m/s"/>
-                    <ComboBoxItem Content="inch/us"/>
-                </ComboBox>
+                <ComboBox x:Name="LongitudinalVelocityUnit" Grid.Column="2" Grid.Row="5" Margin="5" ItemsSource="{Binding VelocityUnitList}"
+                          SelectedItem="{Binding SelectedLongitudinalVelocityUnit}"/>
                 <Label Content="Step 2: Measure Shear Velocity" Grid.Column="0" Grid.Row="6" Grid.ColumnSpan="3"/>
                 <Button x:Name="MeasureShearVelocity" Content="Measure VS" Grid.Column="0" Grid.Row="7"
                         Margin="5" />
                 <TextBox x:Name="ShearVelocityDigits" Grid.Column="1" Grid.Row="7" Margin="0,5,5,5"/>
-                <ComboBox x:Name="ShearVelocityUnit" Grid.Column="2" Grid.Row="7" Margin="5" SelectedValuePath="Content">
-                    <ComboBoxItem IsSelected="True" Content="mm/us"/>
-                    <ComboBoxItem Content="m/s"/>
-                    <ComboBoxItem Content="inch/us"/>
-                </ComboBox>
+                <ComboBox x:Name="ShearVelocityUnit" Grid.Column="2" Grid.Row="7" Margin="5" ItemsSource="{Binding VelocityUnitList}"
+                          SelectedItem="{Binding SelectedShearVelocityUnit}"/>
                 <Label Content="Step 3: Measurement Results" Grid.Column="0" Grid.Row="8" Grid.ColumnSpan="3" />
-                <Button x:Name="CalculateModulus" Content="Calculate" Grid.Column="0" Grid.Row="9" 
-                        Margin="5" />
+                <!--<Button x:Name="CalculateModulus" Content="Calculate" Grid.Column="0" Grid.Row="9" 
+                        Margin="5" />-->
                 <Label Content="Poisson's Ratio" Grid.Column="0" Grid.Row="10" Margin="0,5,0,5" />
-                <TextBox x:Name="PoissonsRatioDigits" Grid.Column="1" Grid.Row="10" Margin="0,5,5,5" />
+                <TextBox x:Name="PoissonsRatio" Grid.Column="1" Grid.Row="10" Margin="0,5,5,5" />
                 <Label Content="Young's Modulus" Grid.Column="0" Grid.Row="11" Margin="0,5,0,5" />
-                <TextBox x:Name="YoungsModulusDigits" Grid.Column="1" Grid.Row="11" Margin="0,5,5,5" />
+                <TextBox x:Name="YoungsModulus" Grid.Column="1" Grid.Row="11" Margin="0,5,5,5" />
                 <ComboBox x:Name="YoungsModulusUnit" Grid.Column="2" Grid.Row="11" Margin="5" SelectedValuePath="Content">
                     <ComboBoxItem IsSelected="True" Content="GPa"/>
                     <ComboBoxItem Content="x10^9 N/m^2"/>
                 </ComboBox>
                 <Label Content="Shear Modulus" Grid.Column="0" Grid.Row="12" Margin="0,5,0,5" />
-                <TextBox x:Name="ShearModulusDigits" Grid.Column="1" Grid.Row="12" Margin="0,5,5,5" />
+                <TextBox x:Name="ShearModulus" Grid.Column="1" Grid.Row="12" Margin="0,5,5,5" />
                 <ComboBox x:Name="ShearModulusUnit" Grid.Column="2" Grid.Row="12" Margin="5" SelectedValuePath="Content">
                     <ComboBoxItem IsSelected="True" Content="GPa"/>
                     <ComboBoxItem Content="x10^9 N/m^2"/>
