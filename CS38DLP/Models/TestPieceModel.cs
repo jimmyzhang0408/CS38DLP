@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace CS38DLP.Models
 {    
-    public class Attribute
+    public class TestPieceAttribute
     {
         public double Digits { get; set; }
         public string Unit { get; set; }
     }
 
-    public class Density : Attribute
+    public class Density : TestPieceAttribute
     {
         public Density()
         {
@@ -24,27 +24,27 @@ namespace CS38DLP.Models
         {
             get
             {
-                double convertedDigtis = 0.0;
+                double convertedDigits = 0.0;
                 switch (Unit)
                 {
                     case "kg/m^3":
-                        convertedDigtis = Digits * 1e-3;
+                        convertedDigits = Digits * 1e-3;
                         break;
 
                     case "g/cc":
-                        convertedDigtis = Digits;
+                        convertedDigits = Digits;
                         break;
 
                     default:
-                        convertedDigtis = Digits;
+                        convertedDigits = Digits;
                         break;
                 }
-                return convertedDigtis;
+                return convertedDigits;
             }
         }
     }
 
-    public class Thickness : Attribute
+    public class Thickness : TestPieceAttribute
     {
         public Thickness()
         {
@@ -56,31 +56,31 @@ namespace CS38DLP.Models
         {
             get
             {
-                double convertedDigtis = 0.0;
+                double convertedDigits = 0.0;
                 switch (Unit)
                 {
                     case "mm":
-                        convertedDigtis = Digits;
+                        convertedDigits = Digits;
                         break;
 
                     case "m":
-                        convertedDigtis = Digits * 1e3;
+                        convertedDigits = Digits * 1e3;
                         break;
 
                     case "inch":
-                        convertedDigtis = Digits * 25.4;
+                        convertedDigits = Digits * 25.4;
                         break;
 
                     default:
-                        convertedDigtis = Digits;
+                        convertedDigits = Digits;
                         break;
                 }
-                return convertedDigtis;
+                return convertedDigits;
             }
         }
     }
 
-    public class Velocity : Attribute
+    public class Velocity : TestPieceAttribute
     {
         public Velocity()
         {
@@ -92,26 +92,26 @@ namespace CS38DLP.Models
         {
             get
             {
-                double convertedDigtis = 0.0;
+                double convertedDigits = 0.0;
                 switch (Unit)
                 {
                     case "mm/us":
-                        convertedDigtis = Digits;
+                        convertedDigits = Digits;
                         break;
 
                     case "m/s":
-                        convertedDigtis = Digits * 1e-3;
+                        convertedDigits = Digits * 1e-3;
                         break;
 
                     case "inch/us":
-                        convertedDigtis = Digits * 25.4;
+                        convertedDigits = Digits * 25.4;
                         break;
 
                     default:
-                        convertedDigtis = Digits;
+                        convertedDigits = Digits;
                         break;
                 }
-                return convertedDigtis;
+                return convertedDigits;
             }
         }
     }

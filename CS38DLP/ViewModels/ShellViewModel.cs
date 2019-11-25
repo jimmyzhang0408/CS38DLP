@@ -22,13 +22,13 @@ namespace CS38DLP.ViewModels
         private string _selectedLongitudinalVelocityUnit;
         private string _selectedShearVelocityUnit;
         
-        private DeviceModel _device;
+        public DeviceModel device;
                 
         private string _commandString;
         private string _textCommandReading;
         private string _logging;
 
-        private TestPieceModel testPiece = new TestPieceModel();
+        public TestPieceModel testPiece = new TestPieceModel();
         private string _densityDigits;
         //private string _thicknessDigits;
         private string _longitudianlVelocityDigits;
@@ -74,47 +74,48 @@ namespace CS38DLP.ViewModels
 
         public void InitDevice()
         {
-            _device = new DeviceModel();
-            Logging += String.Format("\nInitializing...Done!\nDevice Name: {0}\n", _device.Name);
+            device = new DeviceModel();
+            device.InitDevice();
+            Logging += String.Format("\nInitializing...Done!\nDevice Name: {0}\n", device.Name);         
         }
 
         public void GageInfo()
         {
             var cmd = "GAGEINFO?";
             Logging += String.Format("\n=============SEND=============\n{0}\n\n\n", cmd);
-            Logging += String.Format("\n*********************RECEIVE********************\n{0}\n\n\n", _device.Send(cmd));
+            Logging += String.Format("\n*********************RECEIVE********************\n{0}\n\n\n", device.Send(cmd));
         }
 
         public void GageVersion()
         {
             var cmd = "VER?";
             Logging += String.Format("\n=============SEND=============\n{0}\n\n\n", cmd);
-            Logging += String.Format("\n*********************RECEIVE********************\n{0}\n\n\n", _device.Send(cmd));
+            Logging += String.Format("\n*********************RECEIVE********************\n{0}\n\n\n", device.Send(cmd));
         }
 
         public void CommandUnits()
         {
             var cmd = "UNITS?";
             Logging += String.Format("\n=============SEND=============\n{0}\n\n\n", cmd);
-            Logging += String.Format("\n*********************RECEIVE********************\n{0}\n\n\n", _device.Send(cmd));
+            Logging += String.Format("\n*********************RECEIVE********************\n{0}\n\n\n", device.Send(cmd));
         }
 
         public void CommandVelocity()
         {
             var cmd = "VELOCITY?";
             Logging += String.Format("\n=============SEND=============\n{0}\n\n\n", cmd);
-            Logging += String.Format("\n*********************RECEIVE********************\n{0}\n\n\n", _device.Send(cmd));
+            Logging += String.Format("\n*********************RECEIVE********************\n{0}\n\n\n", device.Send(cmd));
         }
 
         public void SendCommand()
         {
             Logging += String.Format("\n=============SEND=============\n{0}\n\n\n", CommandString);
-            Logging += String.Format("\n*********************RECEIVE********************\n{0}\n\n\n", _device.Send(CommandString));
+            Logging += String.Format("\n*********************RECEIVE********************\n{0}\n\n\n", device.Send(CommandString));
         }
 
         public void CommandReading()
         {
-            var readings = _device.CurrentReading();
+            var readings = device.CurrentReading();
             TextCommandReading = readings.Item1;            
         }
 
@@ -268,7 +269,6 @@ namespace CS38DLP.ViewModels
             {
                 _densityDigits = value;
                 NotifyOfPropertyChange(() => DensityDigits);
-
                 if (Double.TryParse(value, out double outValue))
                 {
                     testPiece.density.Digits = outValue;
@@ -350,7 +350,7 @@ namespace CS38DLP.ViewModels
 
         public void MeasureLongitudinalVelocity()
         {
-            var readings = _device.CurrentReading();
+            var readings = device.CurrentReading();
             LongitudinalVelocityDigits = readings.Item1;
             switch (readings.Item2)
             {
@@ -370,7 +370,7 @@ namespace CS38DLP.ViewModels
 
         public void MeasureShearVelocity()
         {
-            var readings = _device.CurrentReading();
+            var readings = device.CurrentReading();
             ShearVelocityDigits = readings.Item1;
             switch (readings.Item2)
             {

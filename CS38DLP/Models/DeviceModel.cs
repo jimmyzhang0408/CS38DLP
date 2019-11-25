@@ -9,18 +9,18 @@ namespace CS38DLP.Models
     {
         private Device _device;
 
-        public DeviceModel()
+        public virtual string Name
+        {
+            get { return _device.DeviceName; }
+        }
+
+        public virtual void InitDevice()
         {
             _device = new Device(EDeviceType.device_38dlp, "USB");
             _device.InitDevice();
         }
 
-        public string Name
-        {
-            get { return _device.DeviceName; }
-        }
-
-        public string Send(string command)
+        public virtual string Send(string command)
         {
             var resp = "";
             _device.Clear();
@@ -50,7 +50,7 @@ namespace CS38DLP.Models
             return resp;
         }
 
-        public Tuple<string, string> CurrentReading()
+        public virtual Tuple<string, string> CurrentReading()
         {            
             string[] words = Regex.Split(Send("SEND=SINGLE"), @"\s+");
             return Tuple.Create(words[1], words[2]);
