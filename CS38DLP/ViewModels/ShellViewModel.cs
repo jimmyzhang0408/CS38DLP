@@ -335,17 +335,17 @@ namespace CS38DLP.ViewModels
 
         public string PoissonsRatio
         {
-            get { return testPiece.PoissonsRatio.ToString(); }
+            get { return testPiece.PoissonsRatio.ToString("0.##"); }
         }
 
         public string YoungsModulus
         {
-            get { return testPiece.YoungsModulus.ToString(); }
+            get { return testPiece.YoungsModulus.ToString("0.##"); }
         }
 
         public string ShearModulus
         {
-            get { return testPiece.ShearModulus.ToString(); }
+            get { return testPiece.ShearModulus.ToString("0.##"); }
         }
 
         public void MeasureLongitudinalVelocity()
