@@ -53,7 +53,7 @@ namespace CS38DLP.Models
         public virtual Tuple<string, string> CurrentReading()
         {            
             string[] words = Regex.Split(Send("SEND=SINGLE"), @"\s+");
-            return Tuple.Create(words[1], words[2]);
+            return Tuple.Create(words[2], words[3]);
         }
     }
 }
