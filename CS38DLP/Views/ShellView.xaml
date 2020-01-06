@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CS38DLP.Views"
         mc:Ignorable="d" FontSize="18" WindowStartupLocation="CenterScreen"
-        Title="ShellView" Height="600" Width="1280" >
+        Title="ShellView" Height="600" Width="1100" >
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="20" />
@@ -91,13 +91,26 @@
                 <TextBox x:Name="ThicknessDigits" Grid.Column="1" Grid.Row="3" Margin="0,5,5,5" />
                 <ComboBox x:Name="ThicknessUnitList" Grid.Column="2" Grid.Row="3" Margin="5" 
                           SelectedItem="{Binding SelectedThicknessUnit}"/>-->
-                <Label Content="Step 1: Measure Longitudinal Velocity" Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="3" />
+                <StackPanel Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="3" Margin="0,5">
+                    <Label Content="Step 1: Measure Longitudinal Velocity"  />
+                    <StackPanel Orientation="Horizontal">
+                        <Button x:Name="SetVLSetup" Content="Set VL Setup" Margin="5"/>
+                        <TextBox x:Name="VLSetup" MinWidth="200" Margin="5"/>
+                    </StackPanel>                    
+                </StackPanel>                
                 <Button x:Name="MeasureLongitudinalVelocity" Content="Measure VL" Grid.Column="0" Grid.Row="5" 
                         Margin="5"/>
                 <TextBox x:Name="LongitudinalVelocityDigits" Grid.Column="1" Grid.Row="5" Margin="0,5,5,5" />
                 <ComboBox x:Name="LongitudinalVelocityUnit" Grid.Column="2" Grid.Row="5" Margin="5" ItemsSource="{Binding VelocityUnitList}"
                           SelectedItem="{Binding SelectedLongitudinalVelocityUnit}"/>
-                <Label Content="Step 2: Measure Shear Velocity" Grid.Column="0" Grid.Row="6" Grid.ColumnSpan="3"/>
+                <StackPanel Grid.Column="0" Grid.Row="6" Grid.ColumnSpan="3">
+                    <Label Content="Step 2: Measure Shear Velocity" />
+                    <StackPanel Orientation="Horizontal">
+                        <Button x:Name="SetVSSetup" Content="Set VS Setup" Margin="5"/>
+                        <TextBox x:Name="VSSetup" MinWidth="200" Margin="5"/>
+                    </StackPanel>
+                </StackPanel>
+                
                 <Button x:Name="MeasureShearVelocity" Content="Measure VS" Grid.Column="0" Grid.Row="7"
                         Margin="5" />
                 <TextBox x:Name="ShearVelocityDigits" Grid.Column="1" Grid.Row="7" Margin="0,5,5,5"/>

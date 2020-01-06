@@ -32,14 +32,16 @@ namespace CS38DLP.ViewModels
         private string _densityDigits;
         //private string _thicknessDigits;
         private string _longitudianlVelocityDigits;
-        private string _shearVelocityDigits;        
+        private string _shearVelocityDigits;
+        private string _vlSetup;
+        private string _vsSetup;
 
         public ShellViewModel()
         {
             Commands.Add("FTPINFO?");
             Commands.Add("GAGEINFO?");
             Commands.Add("FILEDIR?");
-            Commands.Add("APPSUDIR");
+            Commands.Add("APPSUDIR?");
             Commands.Add("XDCRLIST?");
             Commands.Add("MEMORY?");
             Commands.Add("SEND=SINGLE");
@@ -365,7 +367,8 @@ namespace CS38DLP.ViewModels
                 default:
                     SelectedLongitudinalVelocityUnit = "mm/us";
                     break;
-            }              
+            }
+            //LongitudinalVelocityDigits = "5.6";
         }
 
         public void MeasureShearVelocity()
@@ -385,6 +388,39 @@ namespace CS38DLP.ViewModels
                 default:
                     SelectedShearVelocityUnit = "mm/us";
                     break;
+            }
+            //ShearVelocityDigits = "2.9";
+        }
+
+        public void SetVLSetup()
+        {
+            device.Send("SETUPNAME=" + VLSetup);
+            VLSetup = device.Send("SETUPNAME?").Split('\r')[0];
+        }
+
+        public void SetVSSetup()
+        {
+            device.Send("SETUPNAME=" + VSSetup);
+            VSSetup = device.Send("SETUPNAME?").Split('\r')[0];
+        }
+
+        public string VLSetup
+        {
+            get { return _vlSetup; }
+            set
+            {
+                _vlSetup = value;
+                NotifyOfPropertyChange(() => VLSetup);
+            }
+        }
+
+        public string VSSetup
+        {
+            get { return _vsSetup; }
+            set
+            {
+                _vsSetup = value;
+                NotifyOfPropertyChange(() => VSSetup);
             }
         }
     }
