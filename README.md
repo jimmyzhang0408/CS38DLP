@@ -1,5 +1,6 @@
 # CS38DLP
-Fored from QuLong repo
+# python for 38DLP
+Forked from QuLong repo
 
 Trying to set up another solution to make communication with 38DLP via python platfrom
 
